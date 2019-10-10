@@ -23,6 +23,39 @@ public class User {
     private String createdBy;
     private String username;
     private String password;
+    private String createdOn;
+
+    public User(String firstName, String lastName, String dob, String email,
+                String address, String phoneNumber, int departmentId, Long salary, String dateOfJoining, String createdBy) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dob = dob;
+        this.email = email;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.departmentId = departmentId;
+        this.salary = salary;
+        this.dateOfJoining = dateOfJoining;
+        this.createdBy = createdBy;
+    }
+
+    public User(String firstName, String lastName, String dob, String email, String address, String phoneNumber,
+                int departmentId, Long salary, String dateOfJoining, String createdBy, String username, String password, String createdOn) {
+//        this.uid = uid;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dob = dob;
+        this.email = email;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.departmentId = departmentId;
+        this.salary = salary;
+        this.dateOfJoining = dateOfJoining;
+        this.createdBy = createdBy;
+        this.username = username;
+        this.password = password;
+        this.createdOn = createdOn;
+    }
 
     public User() {
     }
@@ -129,5 +162,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(String createdOn) {
+        this.createdOn = createdOn;
     }
 }

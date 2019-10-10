@@ -2,14 +2,14 @@ package com.tavisca.springapplication.controller;
 
 
 import com.tavisca.springapplication.exception.RequestUserNotFoundException;
+import com.tavisca.springapplication.helper.UserHelper;
 import com.tavisca.springapplication.model.User;
 import com.tavisca.springapplication.repository.UserRepository;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,8 +35,27 @@ public class UserController {
         Optional<User> requestedUser = this.userRepository.findById(id);
         logger.info("-=- GetRequest on getSingleUser() Method for the Id  "+id+"-=-");
         return requestedUser.orElseThrow(()->new RequestUserNotFoundException("The User with the Id "+id+" is not Present"));
-
     }
+
+    @PostMapping("/users")
+    public ResponseEntity<?> addUser(@RequestBody User user){
+        User completeUser = UserHelper.createUser(user);
+        this.userRepository.save(completeUser);
+        return new ResponseEntity<>("Created", HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable("id") Integer id){
+        Optional<User> byId = this.userRepository.findById(id);
+        if(byId.isPresent()){
+            this.userRepository.deleteById(id);
+            return new ResponseEntity<>("Deleted",HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>("No User Found with Id "+id, HttpStatus.NOT_FOUND);
+        }
+    }
+
 
 
 
