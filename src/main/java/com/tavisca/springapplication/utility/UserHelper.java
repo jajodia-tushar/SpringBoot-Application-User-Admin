@@ -1,4 +1,4 @@
-package com.tavisca.springapplication.helper;
+package com.tavisca.springapplication.utility;
 
 import com.tavisca.springapplication.model.User;
 
@@ -71,5 +71,15 @@ public class UserHelper {
                 salary,dateOfJoining,createdBy,userName,password,createdOn);
 
         return finalUser;
+    }
+
+    public static User copyUserDetails(User oldUser, User newUser){
+
+        newUser.setUid(oldUser.getUid());
+        newUser.setCreatedBy(oldUser.getCreatedBy());
+        newUser.setSalary(oldUser.getSalary());
+        newUser.setDateOfJoining(oldUser.getDateOfJoining());
+
+        return newUser;
     }
 }

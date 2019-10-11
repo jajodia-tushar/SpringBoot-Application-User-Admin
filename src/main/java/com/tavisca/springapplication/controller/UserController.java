@@ -2,9 +2,10 @@ package com.tavisca.springapplication.controller;
 
 
 import com.tavisca.springapplication.exception.RequestUserNotFoundException;
-import com.tavisca.springapplication.helper.UserHelper;
+import com.tavisca.springapplication.utility.UserHelper;
 import com.tavisca.springapplication.model.User;
 import com.tavisca.springapplication.repository.UserRepository;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,8 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/api")
@@ -42,6 +41,15 @@ public class UserController {
         User completeUser = UserHelper.createUser(user);
         this.userRepository.save(completeUser);
         return new ResponseEntity<>("Created", HttpStatus.ACCEPTED);
+    }
+
+    @PutMapping("/users/edit/{username}")
+    public ResponseEntity<?> updateUser(@PathVariable String username, @RequestBody User newUser){
+
+        User oldUser = this.userRepository.findByUsername(username);
+        User updateUser = UserHelper.copyUserDetails(oldUser,newUser);
+        this.userRepository.save(newUser);
+        return new ResponseEntity<>("Done",HttpStatus.OK);
     }
 
     @DeleteMapping("/users/{id}")
