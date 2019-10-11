@@ -1,9 +1,13 @@
 package com.tavisca.springapplication.model;
 
+import com.tavisca.springapplication.utility.UserFields;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User {
@@ -23,6 +27,7 @@ public class User {
     private String username;
     private String password;
     private String createdOn;
+    private String role;
 
     public User(String firstName, String lastName, String dob, String email,
                 String address, String phoneNumber, int departmentId, Long salary, String dateOfJoining, String createdBy) {
@@ -39,8 +44,8 @@ public class User {
     }
 
     public User(String firstName, String lastName, String dob, String email, String address, String phoneNumber,
-                int departmentId, Long salary, String dateOfJoining, String createdBy, String username, String password, String createdOn) {
-//        this.uid = uid;
+                int departmentId, Long salary, String dateOfJoining, String createdBy, String username, String password,
+                String createdOn,String role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dob = dob;
@@ -54,6 +59,7 @@ public class User {
         this.username = username;
         this.password = password;
         this.createdOn = createdOn;
+        this.role = role;
     }
 
     public User() {
@@ -171,4 +177,63 @@ public class User {
         this.createdOn = createdOn;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public List<UserFields> getNumberOfChangedField(User user){
+
+        List<UserFields> list = new ArrayList<>();
+
+        if(this.getUid() != user.getUid())
+            list.add(UserFields.UID);
+
+        if(!this.getFirstName().equals(user.getFirstName()))
+            list.add(UserFields.FIRSTNAME);
+
+        if(!this.getLastName().equals(user.getLastName()))
+            list.add(UserFields.LASTNAME);
+
+        if(!this.getDob().equals(user.getDob()))
+            list.add(UserFields.DOB);
+
+        if(!this.getRole().equals(user.getRole()))
+            list.add(UserFields.ROLE);
+
+        if(!this.getDateOfJoining().equals(user.getDateOfJoining()))
+            list.add(UserFields.DATEOFJOINING);
+
+        if(!this.getPhoneNumber().equals(user.getPhoneNumber()))
+            list.add(UserFields.PHONENUMBER);
+
+        if(!this.getEmail().equals(user.getEmail()))
+            list.add(UserFields.EMAIL);
+
+        if(!this.getAddress().equals(user.getAddress()))
+            list.add(UserFields.ADDRESS);
+
+        if(this.getDepartmentId() != user.getDepartmentId())
+            list.add(UserFields.DEPARTMENTID);
+
+        if(!this.getCreatedBy().equals(user.getCreatedBy()))
+            list.add(UserFields.CREATEDBY);
+
+        if(!this.getUsername().equals(user.getUsername()))
+            list.add(UserFields.USERNAME);
+
+        if(!this.getPassword().equals(user.getPassword()))
+            list.add(UserFields.PASSWORD);
+
+        if(this.getSalary() != user.getSalary())
+            list.add(UserFields.SALARY);
+
+        if(!this.getCreatedOn().equals(user.getCreatedOn()))
+            list.add(UserFields.CREATEDON);
+
+        return  list;
+    }
 }
