@@ -7,8 +7,8 @@ import com.tavisca.springapplication.model.User;
 import com.tavisca.springapplication.repository.UserRepository;
 import com.tavisca.springapplication.utility.UserFields;
 import com.tavisca.springapplication.utility.UserHelper;
-import com.tavisca.springapplication.utility.validate.Operation;
 import com.tavisca.springapplication.utility.UserRole;
+import com.tavisca.springapplication.utility.validate.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,8 +31,7 @@ public class UserController {
     @GetMapping("/users")
     public ResponseEntity<?> getAllUsers(@RequestBody String username){
         User operatingUser = this.userRepository.findByUsername(username); // Add if Null condition
-        if(UserRole.canDoOperation(operatingUser,Operation.ACCESSMANY))
-        {
+        if(UserRole.canDoOperation(operatingUser,Operation.ACCESSMANY)) {
             logger.info("GetRequest on getAllUsers() Method by  "+ operatingUser.getUid());
             return new ResponseEntity<>(this.userRepository.findAll(),HttpStatus.OK);
         }
@@ -46,8 +44,7 @@ public class UserController {
     public ResponseEntity<?> getSingleUser(@PathVariable("id") Integer idRequested,@RequestBody String username) throws RequestUserNotFoundException {
         User operatingUser = this.userRepository.findByUsername(username);
 
-        if(UserRole.canDoOperation(operatingUser,Operation.ACCESSONE,idRequested))
-        {
+        if(UserRole.canDoOperation(operatingUser,Operation.ACCESSONE,idRequested)) {
             Optional<User> requestedUser = this.userRepository.findById(idRequested);
             logger.info("-=- GetRequest on getSingleUser() Method for the Id  "+idRequested+"-=-");
             return requestedUser.isPresent() ? new ResponseEntity<>(requestedUser.get(),HttpStatus.OK)
@@ -79,8 +76,10 @@ public class UserController {
     public ResponseEntity<?> updateUser(@PathVariable String updatingUserUsername,@RequestBody PostClassDataFormat object){
         User updatingUserOldValue = this.userRepository.findByUsername(updatingUserUsername);
         User updatingUserNewValue = object.getUser();
-
         User operatingUser = this.userRepository.findByUsername(object.getUsername());
+
+        if(operatingUser == null || updatingUserOldValue == null)
+            return new ResponseEntity<>("No Such User Found", HttpStatus.FORBIDDEN);
 
         if(UserRole.canDoOperation(operatingUser,Operation.UPDATE)){
             List<UserFields> numberOfChangedField = updatingUserOldValue.getNumberOfChangedField(updatingUserNewValue);
@@ -101,6 +100,9 @@ public class UserController {
     public ResponseEntity<?> deleteUser(@PathVariable("id") Integer id,@RequestBody String username){
 
         User operatingUser = this.userRepository.findByUsername(username);
+        if(operatingUser == null)
+            return new ResponseEntity<>("You are not Allowed to Do Delete Operation", HttpStatus.FORBIDDEN);    
+
         if(UserRole.canDoOperation(operatingUser,Operation.DELETE)) {
             Optional<User> userBeingDeleted = this.userRepository.findById(id);
             if (userBeingDeleted.isPresent()) {
@@ -110,6 +112,6 @@ public class UserController {
                 return new ResponseEntity<>("No User Found with Id " + id, HttpStatus.NOT_FOUND);
         }
         else
-            return new ResponseEntity<>("You are not Allowed to Do Delete Operation", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("You are not Allowed to Do Delete Operation", HttpStatus.FORBIDDEN);
     }
 }

@@ -189,49 +189,49 @@ public class User {
 
         List<UserFields> list = new ArrayList<>();
 
-        if(this.getUid() != user.getUid())
+        if((user.getUid()  != 0) && ((this.getUid() != user.getUid())))
             list.add(UserFields.UID);
 
-        if(!this.getFirstName().equals(user.getFirstName()))
+        if((user.getFirstName() !=null) && (!this.getFirstName().equals(user.getFirstName())))
             list.add(UserFields.FIRSTNAME);
 
-        if(!this.getLastName().equals(user.getLastName()))
+        if((user.getLastName() !=null) && (!this.getLastName().equals(user.getLastName())))
             list.add(UserFields.LASTNAME);
 
-        if(!this.getDob().equals(user.getDob()))
+        if((user.getDob() !=null) && (!this.getDob().equals(user.getDob())))
             list.add(UserFields.DOB);
 
-        if(!this.getRole().equals(user.getRole()))
+        if((user.getRole() !=null) && (!this.getRole().equals(user.getRole())))
             list.add(UserFields.ROLE);
 
-        if(!this.getDateOfJoining().equals(user.getDateOfJoining()))
+        if((user.getDateOfJoining() !=null) && (!this.getDateOfJoining().equals(user.getDateOfJoining())))
             list.add(UserFields.DATEOFJOINING);
 
-        if(!this.getPhoneNumber().equals(user.getPhoneNumber()))
+        if((user.getPhoneNumber() !=null) && (!this.getPhoneNumber().equals(user.getPhoneNumber())))
             list.add(UserFields.PHONENUMBER);
 
-        if(!this.getEmail().equals(user.getEmail()))
+        if((user.getEmail() !=null) && (!this.getEmail().equals(user.getEmail())))
             list.add(UserFields.EMAIL);
 
-        if(!this.getAddress().equals(user.getAddress()))
+        if((user.getAddress() !=null) && (!this.getAddress().equals(user.getAddress())))
             list.add(UserFields.ADDRESS);
 
-        if(this.getDepartmentId() != user.getDepartmentId())
+        if((user.getDepartmentId()  != 0) && ((this.getDepartmentId() != user.getDepartmentId())))
             list.add(UserFields.DEPARTMENTID);
 
-        if(!this.getCreatedBy().equals(user.getCreatedBy()))
+        if((user.getCreatedBy() !=null) && (!this.getCreatedBy().equals(user.getCreatedBy())))
             list.add(UserFields.CREATEDBY);
 
-        if(!this.getUsername().equals(user.getUsername()))
+        if((user.getUsername() !=null) && (!this.getUsername().equals(user.getUsername())))
             list.add(UserFields.USERNAME);
 
-        if(!this.getPassword().equals(user.getPassword()))
+        if((user.getPassword() !=null) && (!this.getPassword().equals(user.getPassword())))
             list.add(UserFields.PASSWORD);
 
-        if(this.getSalary() != user.getSalary())
+        if((user.getSalary()  != null) && ((!this.getSalary().equals(user.getSalary()))))
             list.add(UserFields.SALARY);
 
-        if(!this.getCreatedOn().equals(user.getCreatedOn()))
+        if((user.getCreatedOn() !=null) && (!this.getCreatedOn().equals(user.getCreatedOn())))
             list.add(UserFields.CREATEDON);
 
         return  list;
