@@ -1,6 +1,4 @@
 package com.tavisca.springapplication.controller;
-
-
 import com.tavisca.springapplication.dto.PostClassDataFormat;
 import com.tavisca.springapplication.exception.RequestUserNotFoundException;
 import com.tavisca.springapplication.model.User;
@@ -101,7 +99,7 @@ public class UserController {
 
         User operatingUser = this.userRepository.findByUsername(username);
         if(operatingUser == null)
-            return new ResponseEntity<>("You are not Allowed to Do Delete Operation", HttpStatus.FORBIDDEN);    
+            return new ResponseEntity<>("You are not Allowed to Do Delete Operation", HttpStatus.FORBIDDEN);
 
         if(UserRole.canDoOperation(operatingUser,Operation.DELETE)) {
             Optional<User> userBeingDeleted = this.userRepository.findById(id);
